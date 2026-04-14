@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 200 30% 98%;
+    --foreground: 220 25% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 20%;
+
+    --primary: 200 60% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 35% 88%;
+    --secondary-foreground: 150 40% 25%;
+
+    --muted: 200 20% 94%;
+    --muted-foreground: 220 15% 50%;
+
+    --accent: 340 45% 90%;
+    --accent-foreground: 340 40% 30%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 150 45% 50%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 40 90% 60%;
+    --warning-foreground: 40 80% 15%;
+
+    --border: 200 20% 88%;
+    --input: 200 20% 90%;
+    --ring: 200 60% 55%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Custom tokens */
+    --card-shadow: 0 2px 12px -2px hsl(200 30% 70% / 0.2);
+    --card-shadow-hover: 0 4px 20px -4px hsl(200 30% 70% / 0.3);
+    --btn-shadow: 0 3px 10px -2px hsl(200 60% 55% / 0.3);
+  }
+
+  .dark, .high-contrast {
+    --background: 220 20% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 20% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 20% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 200 70% 60%;
+    --primary-foreground: 220 20% 8%;
+
+    --secondary: 150 40% 20%;
+    --secondary-foreground: 150 30% 90%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 70%;
+
+    --accent: 340 40% 25%;
+    --accent-foreground: 340 30% 90%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 150 50% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 200 70% 60%;
+
+    --card-shadow: 0 2px 12px -2px hsl(0 0% 0% / 0.4);
+    --card-shadow-hover: 0 4px 20px -4px hsl(0 0% 0% / 0.5);
+    --btn-shadow: 0 3px 10px -2px hsl(200 70% 60% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+  }
+}
+
+/* Accessibility: larger tap targets */
+@layer components {
+  .btn-elder {
+    @apply rounded-2xl px-8 py-5 text-xl font-bold shadow-md transition-all duration-200;
+    min-height: 64px;
+    min-width: 120px;
+    box-shadow: var(--btn-shadow);
+  }
+
+  .btn-elder:active {
+    transform: scale(0.97);
+  }
+
+  .card-elder {
+    @apply rounded-2xl p-6 border;
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s;
+  }
+
+  .card-elder:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+}
