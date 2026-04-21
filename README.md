@@ -1,4 +1,4 @@
-# Cuidar+
+# Health+
 
 ## About the Project
 Cuidar+ is a web application designed to support elderly well-being by providing accessible and user-friendly tools to improve autonomy and quality of life.
