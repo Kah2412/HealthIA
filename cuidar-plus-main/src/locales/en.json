@@ -1,0 +1,227 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next →",
+    "previous": "← Previous",
+    "highContrast": "High Contrast",
+    "normal": "Normal",
+    "toggleContrast": "High contrast mode",
+    "toggleContrast_alt": "Toggle high contrast"
+  },
+  "index": {
+    "greeting": {
+      "morning": "Good morning! ☀️",
+      "afternoon": "Good afternoon! 🌤️",
+      "evening": "Good evening! 🌙"
+    },
+    "weather": {
+      "loading": "Loading weather...",
+      "error": "Could not get weather.",
+      "sunny": "Sunny",
+      "partlyCloudy": "Partly cloudy",
+      "rainy": "Rainy",
+      "hotRecommendation": "Hot day, drink water 💧",
+      "coldRecommendation": "Bring a jacket 🧥",
+      "mildRecommendation": "Mild weather, enjoy calmly.",
+      "message": "Today is {{condition}}, {{temperature}}°C. {{recommendation}}"
+    },
+    "reminder": "💧 Remember to drink water! &nbsp; 💊 Check your medicines.",
+    "menu": {
+      "remedios": "Medicines",
+      "agua": "Water",
+      "avisos": "Notices",
+      "lazer": "Leisure",
+      "artes": "Arts & Talents",
+      "livros": "Books",
+      "alfabetizacao": "Literacy"
+    }
+  },
+  "remedios": {
+    "title": "Medicines",
+    "allTaken": "Congratulations! All medicines taken! 🎉",
+    "reminder": "Don't forget to take your medicines!",
+    "addNew": "Add new medicine",
+    "medicineName": "Medicine name",
+    "add": "Add medicine",
+    "pressure": "Blood pressure",
+    "vitaminD": "Vitamin D",
+    "calcium": "Calcium",
+    "taken": "I took it"
+  },
+  "agua": {
+    "title": "Water",
+    "goalReached": "Wonderful! You reached your water goal today! 🎉",
+    "goalMessage": "Let's drink water calmly? {{remaining}} cups left.",
+    "reminder": "Gentle reminder every 2 hours to help you stay hydrated.",
+    "progress": "{{copos}} / {{total}} cups 💧",
+    "goalAchieved": "Goal achieved!",
+    "drank": "I drank water"
+  },
+  "avisos": {
+    "title": "Notices",
+    "description": "Here are the facility notices. Tap the speaker to listen!",
+    "listenAll": "Listen to all notices",
+    "notice1": "Tomorrow we'll have a special breakfast at 8am!",
+    "notice2": "Music activity in the living room at 3pm.",
+    "notice3": "Family visits allowed on Sunday.",
+    "notice4": "General medical appointment on Wednesday.",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "lazer": {
+    "title": "Leisure",
+    "description": "Time to have fun! Choose an activity.",
+    "menu": {
+      "truco": "Truco",
+      "paciencia": "Solitaire",
+      "domino": "Domino",
+      "musica": "Music",
+      "leitura": "Reading",
+      "desenho": "Drawing"
+    },
+    "play": "Play",
+    "participate": "I want to participate",
+    "celebration": "🎉 Yay!",
+    "participationMessage": "You want to participate in {{nome}}! Talk to a caregiver."
+  },
+  "artes": {
+    "title": "Arts & Talents",
+    "description": "What will we do today? Choose an art!",
+    "menu": {
+      "embroidery": "Embroidery",
+      "crochet": "Crochet",
+      "painting": "Painting"
+    },
+    "myTalents": "My talents",
+    "artName": "Piece name",
+    "saveTalent": "Save talent",
+    "saved": "Piece saved: {{nome}} on {{data}}.",
+    "motorTraining": "🖐️ Motor Training",
+    "motorDescription": "Exercises to prepare your hands for arts!",
+    "startTraining": "Start training",
+    "step": "Step {{current}} of {{total}}",
+    "listenInstruction": "Listen instruction",
+    "repeat": "← Repeat",
+    "finish": "Finish ✨",
+    "backToArts": "← Back to Arts",
+    "embroidery_instructions": {
+      "step1": "Hold the needle and thread calmly.",
+      "step2": "Pass the thread through the needle eye.",
+      "step3": "Tie a knot at the end of the thread.",
+      "step4": "Poke the needle in the fabric from bottom to top.",
+      "step5": "Pull the thread until the knot holds.",
+      "step6": "Now poke to the side, from top to bottom.",
+      "step7": "Keep making stitches side by side.",
+      "complete": "Congratulations! You're embroidering! 🎉"
+    },
+    "crochet_instructions": {
+      "step1": "Hold the crochet needle with your writing hand.",
+      "step2": "Make a loop with the thread on your finger.",
+      "step3": "Pass the needle through the loop and pull.",
+      "step4": "That's a chain! Keep making more.",
+      "step5": "For a single crochet, poke into the chain.",
+      "step6": "Pull the thread and close the stitch.",
+      "step7": "Repeat in each chain of the row.",
+      "complete": "Amazing! You're doing crochet! 🧶"
+    },
+    "painting_instructions": {
+      "step1": "Choose colors you like.",
+      "step2": "Wet the brush in water.",
+      "step3": "Pass the brush in the paint gently.",
+      "step4": "Make light strokes on the paper.",
+      "step5": "Paint simple shapes: circles, lines.",
+      "step6": "Mix colors to create new ones!",
+      "step7": "Let it dry before touching.",
+      "complete": "How beautiful! Your painting looks wonderful! 🎨"
+    }
+  },
+  "livros": {
+    "title": "Books",
+    "description": "Let's read a book together? Search to see covers and descriptions.",
+    "searchPlaceholder": "🔍 Search book...",
+    "search": "Search book",
+    "searching": "Searching...",
+    "button": "Search",
+    "noResults": "Search for a book to see results.",
+    "loading": "Searching books...",
+    "notFound": "No books found.",
+    "results": "Showing {{count}} results.",
+    "titleNA": "Title not provided",
+    "authorNA": "Author not provided",
+    "descriptionNA": "Description not available.",
+    "error": "Could not load books right now.",
+    "coverAlt": "Cover of {{titulo}}",
+    "icon": "📚",
+    "listen": "Listen"
+  },
+  "alfabetizacao": {
+    "title": "Literacy",
+    "description": "Let's learn letters together! Tap to listen.",
+    "progress": "{{current}} of {{total}}",
+    "listen": "Listen",
+    "syllables": {
+      "ba": "BA",
+      "bala": "BALL",
+      "ca": "CA",
+      "casa": "HOUSE",
+      "da": "DA",
+      "dado": "DICE",
+      "fa": "FA",
+      "faca": "KNIFE",
+      "ga": "GA",
+      "gato": "CAT",
+      "la": "LA",
+      "lata": "CAN",
+      "ma": "MA",
+      "mala": "BAG",
+      "na": "NA",
+      "navio": "SHIP",
+      "pa": "PA",
+      "pato": "DUCK",
+      "ra": "RA",
+      "rato": "RAT",
+      "sa": "SA",
+      "sapo": "TOAD",
+      "ta": "TA",
+      "tatu": "ARMADILLO",
+      "va": "VA",
+      "vaca": "COW"
+    }
+  },
+  "paciencia": {
+    "title": "Solitaire",
+    "complete": "Congratulations! You found all the pairs! 🎉",
+    "description": "Find the pairs! Tap on two cards.",
+    "progress": "Moves: {{moves}} | Pairs: {{matched}}/8",
+    "card": "🂠",
+    "newGame": "New Game"
+  },
+  "truco": {
+    "title": "Truco",
+    "description": "Let's play truco!",
+    "chooseCard": "Choose a card to play!",
+    "youWon": "You won this round! 🎉",
+    "computerWon": "The computer won this round!",
+    "draw": "Draw in this round!",
+    "you": "You",
+    "computer": "Computer",
+    "computerShort": "PC",
+    "yourCards": "Your cards:",
+    "newGame": "New Game",
+    "nextRound": "Next Round"
+  },
+  "notFound": {
+    "code": "404",
+    "message": "Oops! Page not found",
+    "link": "Return to Home"
+  },
+  "emergency": {
+    "title": "Emergency button",
+    "label": "SOS",
+    "simulated": "🚨 Simulated emergency",
+    "info": "In a real app, this would call emergency services."
+  },
+  "guide": {
+    "name": "Clara, your guide"
+  }
+}

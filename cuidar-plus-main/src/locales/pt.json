@@ -1,0 +1,227 @@
+{
+  "common": {
+    "back": "Voltar",
+    "next": "Próximo →",
+    "previous": "← Anterior",
+    "highContrast": "Alto Contraste",
+    "normal": "Normal",
+    "toggleContrast": "Modo alto contraste",
+    "toggleContrast_alt": "Alternar alto contraste"
+  },
+  "index": {
+    "greeting": {
+      "morning": "Bom dia! ☀️",
+      "afternoon": "Boa tarde! 🌤️",
+      "evening": "Boa noite! 🌙"
+    },
+    "weather": {
+      "loading": "Carregando clima...",
+      "error": "Não foi possível obter o clima.",
+      "sunny": "Ensolarado",
+      "partlyCloudy": "Parcialmente nublado",
+      "rainy": "Chuvoso",
+      "hotRecommendation": "Dia quente, beba água 💧",
+      "coldRecommendation": "Leve casaco 🧥",
+      "mildRecommendation": "Clima ameno, aproveite com calma.",
+      "message": "Hoje está {{condition}}, {{temperature}}°C. {{recommendation}}"
+    },
+    "reminder": "💧 Lembre-se de beber água! &nbsp; 💊 Verifique seus remédios.",
+    "menu": {
+      "remedios": "Remédios",
+      "agua": "Água",
+      "avisos": "Avisos",
+      "lazer": "Lazer",
+      "artes": "Artes e Talentos",
+      "livros": "Livros",
+      "alfabetizacao": "Alfabetização"
+    }
+  },
+  "remedios": {
+    "title": "Remédios",
+    "allTaken": "Parabéns! Todos os remédios tomados! 🎉",
+    "reminder": "Não esqueça de tomar seus remédios!",
+    "addNew": "Adicionar novo remédio",
+    "medicineName": "Nome do remédio",
+    "add": "Adicionar remédio",
+    "pressure": "Pressão arterial",
+    "vitaminD": "Vitamina D",
+    "calcium": "Cálcio",
+    "taken": "Tomei"
+  },
+  "agua": {
+    "title": "Água",
+    "goalReached": "Maravilha! Você atingiu a meta de água hoje! 🎉",
+    "goalMessage": "Vamos beber água com calma? Faltam {{remaining}} copos.",
+    "reminder": "Lembrete suave a cada 2 horas para ajudar você a se hidratar.",
+    "progress": "{{copos}} / {{total}} copos 💧",
+    "goalAchieved": "Meta atingida!",
+    "drank": "Bebi água"
+  },
+  "avisos": {
+    "title": "Avisos",
+    "description": "Aqui estão os avisos do lar. Toque no alto-falante para ouvir!",
+    "listenAll": "Ouvir todos os avisos",
+    "notice1": "Amanhã teremos café da manhã especial às 8h!",
+    "notice2": "Atividade de música na sala de convivência às 15h.",
+    "notice3": "Visita da família permitida no domingo.",
+    "notice4": "Consulta médica geral na quarta-feira.",
+    "today": "Hoje",
+    "yesterday": "Ontem"
+  },
+  "lazer": {
+    "title": "Lazer",
+    "description": "Hora de se divertir! Escolha uma atividade.",
+    "menu": {
+      "truco": "Truco",
+      "paciencia": "Paciência",
+      "domino": "Dominó",
+      "musica": "Música",
+      "leitura": "Leitura",
+      "desenho": "Desenho"
+    },
+    "play": "Jogar",
+    "participate": "Quero participar",
+    "celebration": "🎉 Oba!",
+    "participationMessage": "Você quer participar de {{nome}}! Fale com o cuidador."
+  },
+  "artes": {
+    "title": "Artes e Talentos",
+    "description": "O que vamos fazer hoje? Escolha uma arte!",
+    "menu": {
+      "embroidery": "Bordado",
+      "crochet": "Crochê",
+      "painting": "Pintura"
+    },
+    "myTalents": "Meus talentos",
+    "artName": "Nome da peça",
+    "saveTalent": "Salvar talento",
+    "saved": "Peça registrada: {{nome}} em {{data}}.",
+    "motorTraining": "🖐️ Treino Motor",
+    "motorDescription": "Exercícios para preparar suas mãos para artes!",
+    "startTraining": "Começar treino",
+    "step": "Passo {{current}} de {{total}}",
+    "listenInstruction": "Ouvir instrução",
+    "repeat": "← Repetir",
+    "finish": "Finalizar ✨",
+    "backToArts": "← Voltar para Artes",
+    "embroidery_instructions": {
+      "step1": "Pegue a agulha e a linha com calma.",
+      "step2": "Passe a linha pelo buraquinho da agulha.",
+      "step3": "Faça um nó na ponta da linha.",
+      "step4": "Espete a agulha no tecido de baixo pra cima.",
+      "step5": "Puxe a linha toda até o nó segurar.",
+      "step6": "Agora espete ao lado, de cima pra baixo.",
+      "step7": "Continue fazendo pontos lado a lado.",
+      "complete": "Parabéns! Você está bordando! 🎉"
+    },
+    "crochet_instructions": {
+      "step1": "Segure a agulha de crochê com a mão que escreve.",
+      "step2": "Faça um laço com a linha no dedo.",
+      "step3": "Passe a agulha pelo laço e puxe.",
+      "step4": "Isso é uma corrente! Continue fazendo mais.",
+      "step5": "Para o ponto baixo, espete na corrente.",
+      "step6": "Puxe a linha e feche o ponto.",
+      "step7": "Repita em cada corrente da fileira.",
+      "complete": "Maravilha! Você está fazendo crochê! 🧶"
+    },
+    "painting_instructions": {
+      "step1": "Escolha as cores que mais gosta.",
+      "step2": "Molhe o pincel na água.",
+      "step3": "Passe o pincel na tinta com carinho.",
+      "step4": "Faça traços leves no papel.",
+      "step5": "Pinte formas simples: círculos, linhas.",
+      "step6": "Misture cores para criar novas!",
+      "step7": "Deixe secar antes de tocar.",
+      "complete": "Que lindo! Sua pintura ficou maravilhosa! 🎨"
+    }
+  },
+  "livros": {
+    "title": "Livros",
+    "description": "Vamos ler um livro juntos? Pesquise para ver capas e descrições.",
+    "searchPlaceholder": "🔍 Buscar livro...",
+    "search": "Buscar livro",
+    "searching": "Buscando...",
+    "button": "Buscar",
+    "noResults": "Pesquise um livro para ver resultados.",
+    "loading": "Buscando livros...",
+    "notFound": "Nenhum livro encontrado.",
+    "results": "Mostrando {{count}} resultados.",
+    "titleNA": "Título não informado",
+    "authorNA": "Autor não informado",
+    "descriptionNA": "Descrição não disponível.",
+    "error": "Não foi possível carregar os livros agora.",
+    "coverAlt": "Capa de {{titulo}}",
+    "icon": "📚",
+    "listen": "Ouvir"
+  },
+  "alfabetizacao": {
+    "title": "Alfabetização",
+    "description": "Vamos aprender as letras juntos! Toque para ouvir.",
+    "progress": "{{current}} de {{total}}",
+    "listen": "Ouvir",
+    "syllables": {
+      "ba": "BA",
+      "bala": "BALA",
+      "ca": "CA",
+      "casa": "CASA",
+      "da": "DA",
+      "dado": "DADO",
+      "fa": "FA",
+      "faca": "FACA",
+      "ga": "GA",
+      "gato": "GATO",
+      "la": "LA",
+      "lata": "LATA",
+      "ma": "MA",
+      "mala": "MALA",
+      "na": "NA",
+      "navio": "NAVIO",
+      "pa": "PA",
+      "pato": "PATO",
+      "ra": "RA",
+      "rato": "RATO",
+      "sa": "SA",
+      "sapo": "SAPO",
+      "ta": "TA",
+      "tatu": "TATU",
+      "va": "VA",
+      "vaca": "VACA"
+    }
+  },
+  "paciencia": {
+    "title": "Paciência",
+    "complete": "Parabéns! Você encontrou todos os pares! 🎉",
+    "description": "Encontre os pares! Toque em duas cartas.",
+    "progress": "Jogadas: {{moves}} | Pares: {{matched}}/8",
+    "card": "🂠",
+    "newGame": "Novo Jogo"
+  },
+  "truco": {
+    "title": "Truco",
+    "description": "Vamos jogar truco!",
+    "chooseCard": "Escolha uma carta para jogar!",
+    "youWon": "Você ganhou essa rodada! 🎉",
+    "computerWon": "O computador ganhou essa rodada!",
+    "draw": "Empate nessa rodada!",
+    "you": "Você",
+    "computer": "Computador",
+    "computerShort": "PC",
+    "yourCards": "Suas cartas:",
+    "newGame": "Novo Jogo",
+    "nextRound": "Próxima Rodada"
+  },
+  "notFound": {
+    "code": "404",
+    "message": "Oops! Page not found",
+    "link": "Return to Home"
+  },
+  "emergency": {
+    "title": "Botão de emergência",
+    "label": "SOS",
+    "simulated": "🚨 Emergência simulada",
+    "info": "Em um app real, isso ligaria para o serviço de emergência."
+  },
+  "guide": {
+    "name": "Dona Clara, sua guia"
+  }
+}
