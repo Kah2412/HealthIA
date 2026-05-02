@@ -4,9 +4,10 @@ import PageHeader from "@/components/PageHeader";
 import ElderButton from "@/components/ElderButton";
 import EmergencyButton from "@/components/EmergencyButton";
 import GuideCharacter from "@/components/GuideCharacter";
+import { useI18n } from "@/i18n";
 
 type Suit = "♠" | "♥" | "♦" | "♣";
-type CardType = { suit: Suit; value: number; faceUp: boolean; id: string };
+type CardType = { suit: Suit; value: number; id: string };
 
 const suitColors: Record<Suit, string> = {
   "♠": "text-foreground",
@@ -15,64 +16,51 @@ const suitColors: Record<Suit, string> = {
   "♦": "text-destructive",
 };
 
-const valueNames: Record<number, string> = {
-  1: "A", 11: "J", 12: "Q", 13: "K",
-};
+const valueNames: Record<number, string> = { 1: "A", 11: "J", 12: "Q", 13: "K" };
+const getValueDisplay = (value: number) => valueNames[value] || String(value);
 
-const getValueDisplay = (v: number) => valueNames[v] || String(v);
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
 
 function createDeck(): CardType[] {
   const suits: Suit[] = ["♠", "♥", "♦", "♣"];
-  const cards: CardType[] = [];
-  for (const suit of suits) {
-    for (let v = 1; v <= 13; v++) {
-      cards.push({ suit, value: v, faceUp: false, id: `${suit}${v}` });
-    }
-  }
-  return shuffle(cards);
+  return shuffle(suits.flatMap((suit) => Array.from({ length: 13 }, (_, index) => ({ suit, value: index + 1, id: `${suit}${index + 1}` }))));
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// Simple matching game: find pairs by memory
 const Paciencia = () => {
+  const { t } = useI18n();
   const [cards, setCards] = useState<CardType[]>([]);
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<Set<string>>(new Set());
   const [moves, setMoves] = useState(0);
 
   const initGame = useCallback(() => {
-    // Use 8 pairs (16 cards) for simplicity
     const deck = createDeck().slice(0, 8);
-    const pairs = [...deck, ...deck.map(c => ({ ...c, id: c.id + "b" }))];
-    setCards(shuffle(pairs));
+    setCards(shuffle([...deck, ...deck.map((card) => ({ ...card, id: `${card.id}b` }))]));
     setFlipped([]);
     setMatched(new Set());
     setMoves(0);
   }, []);
 
-  useEffect(() => { initGame(); }, [initGame]);
+  useEffect(() => initGame(), [initGame]);
 
   const handleFlip = (index: number) => {
-    if (flipped.length >= 2) return;
-    if (flipped.includes(index)) return;
-    if (matched.has(cards[index].suit + cards[index].value)) return;
-
-    const newFlipped = [...flipped, index];
-    setFlipped(newFlipped);
-
-    if (newFlipped.length === 2) {
-      setMoves(m => m + 1);
-      const [a, b] = newFlipped;
+    if (flipped.length >= 2 || flipped.includes(index)) return;
+    const matchKey = cards[index].suit + cards[index].value;
+    if (matched.has(matchKey)) return;
+    const next = [...flipped, index];
+    setFlipped(next);
+    if (next.length === 2) {
+      setMoves((value) => value + 1);
+      const [a, b] = next;
       if (cards[a].suit === cards[b].suit && cards[a].value === cards[b].value) {
-        setMatched(prev => new Set([...prev, cards[a].suit + cards[a].value]));
+        setMatched((prev) => new Set([...prev, matchKey]));
         setTimeout(() => setFlipped([]), 500);
       } else {
         setTimeout(() => setFlipped([]), 1000);
@@ -85,33 +73,20 @@ const Paciencia = () => {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container max-w-xl mx-auto px-4 space-y-6">
-        <PageHeader title="Paciência" emoji="♠️" />
-
-        <GuideCharacter
-          message={isWon ? "Parabéns! Você encontrou todos os pares! 🎉" : "Encontre os pares! Toque em duas cartas."}
-          size="sm"
-        />
-
-        <div className="text-center">
-          <p className="text-xl font-bold text-foreground">Jogadas: {moves} | Pares: {matched.size}/8</p>
-        </div>
-
+        <PageHeader title={t("leisure.solitaire")} emoji="♠️" />
+        <GuideCharacter message={isWon ? t("games.solitaireWin") : t("games.solitaireGuide")} size="sm" />
+        <p className="text-xl font-bold text-foreground text-center">{t("games.moves")}: {moves} | {t("games.pairs")}: {matched.size}/8</p>
         <div className="grid grid-cols-4 gap-3">
-          {cards.map((card, i) => {
-            const isFlipped = flipped.includes(i);
+          {cards.map((card, index) => {
+            const isFlipped = flipped.includes(index);
             const isMatched = matched.has(card.suit + card.value);
-
             return (
               <motion.button
-                key={i}
+                key={card.id}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => handleFlip(i)}
-                className={`aspect-[3/4] rounded-xl text-2xl font-bold flex flex-col items-center justify-center border-2 transition-all ${
-                  isMatched
-                    ? "bg-success/20 border-success opacity-60"
-                    : isFlipped
-                    ? `bg-card border-primary ${suitColors[card.suit]}`
-                    : "bg-primary border-primary/50 text-primary-foreground"
+                onClick={() => handleFlip(index)}
+                className={`aspect-[3/4] rounded-xl text-2xl font-bold flex flex-col items-center justify-center border-2 transition-all focus:outline-none focus:ring-2 focus:ring-ring ${
+                  isMatched ? "bg-success/20 border-success opacity-70" : isFlipped ? `bg-card border-primary ${suitColors[card.suit]}` : "bg-primary border-primary/50 text-primary-foreground"
                 }`}
                 disabled={isMatched}
               >
@@ -127,10 +102,7 @@ const Paciencia = () => {
             );
           })}
         </div>
-
-        <ElderButton onClick={initGame} variant="primary" fullWidth icon="🔄">
-          Novo Jogo
-        </ElderButton>
+        <ElderButton onClick={initGame} variant="primary" fullWidth icon="🔄">{t("games.newGame")}</ElderButton>
       </div>
       <EmergencyButton />
     </div>

@@ -107,6 +107,23 @@
     line-height: 1.6;
   }
 
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  html[data-font-size="normal"] body {
+    font-size: 18px;
+  }
+
+  html[data-font-size="large"] body {
+    font-size: 20px;
+  }
+
+  html[data-font-size="extra"] body {
+    font-size: 22px;
+  }
+
   h1, h2, h3, h4 {
     font-weight: 700;
   }
@@ -135,5 +152,12 @@
 
   .card-elder:hover {
     box-shadow: var(--card-shadow-hover);
+  }
+
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

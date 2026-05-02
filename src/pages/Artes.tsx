@@ -1,156 +1,97 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import PageHeader from "@/components/PageHeader";
 import ElderButton from "@/components/ElderButton";
 import GuideCharacter from "@/components/GuideCharacter";
 import EmergencyButton from "@/components/EmergencyButton";
-import { Volume2 } from "lucide-react";
-import { falar } from "@/lib/voice";
+import { ttsService } from "@/services/ttsService";
+import { talentsService } from "@/services/talentsService";
+import { useI18n } from "@/i18n";
 
-type Arte = "bordado" | "croche" | "pintura" | null;
+type Art = "embroidery" | "crochet" | "painting" | null;
 
-const tutoriais: Record<"bordado" | "croche" | "pintura", string[]> = {
-  bordado: [
-    "Pegue a agulha e a linha com calma.",
-    "Passe a linha pelo buraquinho da agulha.",
-    "Faça um nó na ponta da linha.",
-    "Espete a agulha no tecido de baixo pra cima.",
-    "Puxe a linha toda até o nó segurar.",
-    "Agora espete ao lado, de cima pra baixo.",
-    "Continue fazendo pontos lado a lado.",
-    "Parabéns! Você está bordando! 🎉",
-  ],
-  croche: [
-    "Segure a agulha de crochê com a mão que escreve.",
-    "Faça um laço com a linha no dedo.",
-    "Passe a agulha pelo laço e puxe.",
-    "Isso é uma corrente! Continue fazendo mais.",
-    "Para o ponto baixo, espete na corrente.",
-    "Puxe a linha e feche o ponto.",
-    "Repita em cada corrente da fileira.",
-    "Maravilha! Você está fazendo crochê! 🧶",
-  ],
-  pintura: [
-    "Escolha as cores que mais gosta.",
-    "Molhe o pincel na água.",
-    "Passe o pincel na tinta com carinho.",
-    "Faça traços leves no papel.",
-    "Pinte formas simples: círculos, linhas.",
-    "Misture cores para criar novas!",
-    "Deixe secar antes de tocar.",
-    "Que lindo! Sua pintura ficou maravilhosa! 🎨",
-  ],
-};
+const artConfig = [
+  { key: "embroidery" as Art, emoji: "🧵", label: "arts.embroidery" },
+  { key: "crochet" as Art, emoji: "🧶", label: "arts.crochet" },
+  { key: "painting" as Art, emoji: "🎨", label: "arts.painting" },
+];
 
 const Artes = () => {
-  const [arteAtual, setArteAtual] = useState<Arte>(null);
-  const [passo, setPasso] = useState(0);
-  const [nomePeca, setNomePeca] = useState("");
-  const [dataPeca, setDataPeca] = useState("");
-  const [imagemPeca, setImagemPeca] = useState<File | null>(null);
-  const [previewImagem, setPreviewImagem] = useState<string | null>(null);
-  const [mensagemSalvo, setMensagemSalvo] = useState("");
+  const { t, dictionary, language } = useI18n();
+  const [currentArt, setCurrentArt] = useState<Art>(null);
+  const [step, setStep] = useState(0);
+  const [pieceName, setPieceName] = useState("");
+  const [pieceDate, setPieceDate] = useState("");
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [savedMessage, setSavedMessage] = useState("");
 
-  const handleImagemChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+  const tutorials = dictionary.arts.tutorials;
+  const steps = useMemo(() => (currentArt ? tutorials[currentArt] : []), [currentArt, tutorials]);
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) {
-      setImagemPeca(null);
-      setPreviewImagem(null);
+      setPreviewImage(null);
       return;
     }
-
-    setImagemPeca(file);
     const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setPreviewImagem(reader.result);
-      } else {
-        setPreviewImagem(null);
-      }
-    };
-    reader.onerror = () => {
-      setPreviewImagem(null);
-    };
+    reader.onload = () => setPreviewImage(typeof reader.result === "string" ? reader.result : null);
+    reader.onerror = () => setPreviewImage(null);
     reader.readAsDataURL(file);
   };
 
-  const salvarTalento = () => {
-    if (nomePeca.trim() && dataPeca) {
-      setMensagemSalvo(`Peça registrada: ${nomePeca.trim()} em ${dataPeca}.`);
-      setNomePeca("");
-      setDataPeca("");
-      setImagemPeca(null);
-      setPreviewImagem(null);
-    }
+  const saveTalent = () => {
+    if (!pieceName.trim() || !pieceDate) return;
+    talentsService.save({ name: pieceName.trim(), date: pieceDate, imageDataUrl: previewImage ?? undefined });
+    setSavedMessage(t("arts.saved", { name: pieceName.trim(), date: pieceDate }));
+    setPieceName("");
+    setPieceDate("");
+    setPreviewImage(null);
   };
 
-  if (!arteAtual) {
+  if (!currentArt) {
     return (
       <div className="min-h-screen bg-background pb-24">
         <div className="container max-w-xl mx-auto px-4 space-y-6">
-          <PageHeader title="Artes e Talentos" emoji="🎨" />
-          <GuideCharacter message="O que vamos fazer hoje? Escolha uma arte!" size="md" />
+          <PageHeader title={t("arts.title")} emoji="🎨" />
+          <GuideCharacter message={t("arts.choose")} size="md" />
 
           <div className="space-y-4">
-            {([
-              { key: "bordado" as Arte, emoji: "🧵", label: "Bordado" },
-              { key: "croche" as Arte, emoji: "🧶", label: "Crochê" },
-              { key: "pintura" as Arte, emoji: "🎨", label: "Pintura" },
-            ]).map((item) => (
-              <ElderButton
-                key={item.key}
-                onClick={() => { setArteAtual(item.key); setPasso(0); }}
-                variant="accent"
-                icon={item.emoji}
-                fullWidth
-              >
-                {item.label}
+            {artConfig.map((item) => (
+              <ElderButton key={item.key} onClick={() => { setCurrentArt(item.key); setStep(0); }} variant="accent" icon={item.emoji} fullWidth>
+                {t(item.label)}
               </ElderButton>
             ))}
           </div>
 
-          {/* Meus talentos */}
           <div className="card-elder space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Meus talentos</h3>
-            <div className="space-y-2">
-              <input
-                type="text"
-                placeholder="Nome da peça"
-                value={nomePeca}
-                onChange={(e) => setNomePeca(e.target.value)}
-                className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              />
-              <input
-                type="date"
-                value={dataPeca}
-                onChange={(e) => setDataPeca(e.target.value)}
-                className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImagemChange}
-                className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              />
-              {previewImagem && (
-                <img src={previewImagem} alt="Preview" className="w-full h-32 object-cover rounded-md" />
-              )}
-              <ElderButton onClick={salvarTalento} variant="primary" fullWidth>
-                Salvar talento
-              </ElderButton>
-              {mensagemSalvo && (
-                <p className="text-sm text-green-600">{mensagemSalvo}</p>
-              )}
-            </div>
+            <h3 className="text-lg font-semibold text-foreground">{t("arts.talents")}</h3>
+            <input
+              type="text"
+              placeholder={t("arts.pieceName")}
+              aria-label={t("arts.pieceName")}
+              value={pieceName}
+              onChange={(event) => setPieceName(event.target.value)}
+              className="w-full px-4 py-3 border border-input rounded-md bg-background text-foreground text-lg"
+            />
+            <input
+              type="date"
+              value={pieceDate}
+              onChange={(event) => setPieceDate(event.target.value)}
+              className="w-full px-4 py-3 border border-input rounded-md bg-background text-foreground text-lg"
+            />
+            <input type="file" accept="image/*" onChange={handleImageChange} aria-label={t("arts.noFile")} className="w-full px-4 py-3 border border-input rounded-md bg-background text-foreground" />
+            {previewImage && <img src={previewImage} alt={pieceName || t("arts.pieceName")} className="w-full h-32 object-cover rounded-md" />}
+            <ElderButton onClick={saveTalent} variant="primary" fullWidth>{t("arts.saveTalent")}</ElderButton>
+            {savedMessage && <p className="text-sm font-semibold text-success">{savedMessage}</p>}
           </div>
 
-          {/* Motor training teaser */}
           <div className="card-elder bg-accent/30 text-center space-y-3">
             <p className="text-2xl">🖐️</p>
-            <p className="text-xl font-bold text-foreground">Treino Motor</p>
-            <p className="text-muted-foreground">Exercícios para preparar suas mãos para artes!</p>
-            <ElderButton onClick={() => { setArteAtual("bordado"); setPasso(0); }} variant="primary">
-              Começar treino
+            <p className="text-xl font-bold text-foreground">{t("arts.motorTitle")}</p>
+            <p className="text-muted-foreground">{t("arts.motorDescription")}</p>
+            <ElderButton onClick={() => { setCurrentArt("embroidery"); setStep(0); }} variant="primary">
+              {t("arts.startTraining")}
             </ElderButton>
           </div>
         </div>
@@ -159,66 +100,36 @@ const Artes = () => {
     );
   }
 
-  const passos = tutoriais[arteAtual];
-  const isLast = passo >= passos.length - 1;
+  const currentConfig = artConfig.find((item) => item.key === currentArt)!;
+  const isLast = step >= steps.length - 1;
 
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container max-w-xl mx-auto px-4 space-y-6">
-        <PageHeader
-          title={arteAtual === "croche" ? "Crochê" : arteAtual === "bordado" ? "Bordado" : "Pintura"}
-          emoji={arteAtual === "croche" ? "🧶" : arteAtual === "bordado" ? "🧵" : "🎨"}
-        />
-
-        <GuideCharacter message={passos[passo]} size="md" />
+        <PageHeader title={t(currentConfig.label)} emoji={currentConfig.emoji} />
+        <GuideCharacter message={steps[step]} size="md" />
 
         <div className="card-elder text-center space-y-4">
-          <p className="text-muted-foreground text-lg">
-            Passo {passo + 1} de {passos.length}
-          </p>
-
-          {/* Progress */}
+          <p className="text-muted-foreground text-lg">{t("arts.step", { current: step + 1, total: steps.length })}</p>
           <div className="w-full h-4 bg-muted rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-primary rounded-full"
-              animate={{ width: `${((passo + 1) / passos.length) * 100}%` }}
-            />
+            <motion.div className="h-full bg-primary rounded-full" animate={{ width: `${((step + 1) / steps.length) * 100}%` }} />
           </div>
-
-          <p className="text-2xl font-bold text-foreground">{passos[passo]}</p>
-
-          <div className="flex flex-col gap-3">
-            <ElderButton onClick={() => falar(passos[passo])} variant="secondary" fullWidth icon="🔊">
-              Ouvir instrução
+          <p className="text-2xl font-bold text-foreground">{steps[step]}</p>
+          <ElderButton onClick={() => ttsService.speak(steps[step], language)} variant="secondary" fullWidth icon="🔊">
+            {t("arts.listenInstruction")}
+          </ElderButton>
+          <div className="flex gap-3">
+            <ElderButton onClick={() => setStep(Math.max(0, step - 1))} variant="accent" fullWidth>
+              {t("common.repeat")}
             </ElderButton>
-
-            <div className="flex gap-3">
-              <ElderButton
-                onClick={() => setPasso(Math.max(0, passo - 1))}
-                variant="accent"
-                fullWidth
-              >
-                ← Repetir
-              </ElderButton>
-              <ElderButton
-                onClick={() => {
-                  if (isLast) {
-                    setArteAtual(null);
-                  } else {
-                    setPasso(passo + 1);
-                  }
-                }}
-                variant="primary"
-                fullWidth
-              >
-                {isLast ? "Finalizar ✨" : "Próximo →"}
-              </ElderButton>
-            </div>
+            <ElderButton onClick={() => (isLast ? setCurrentArt(null) : setStep(step + 1))} variant="primary" fullWidth>
+              {isLast ? t("arts.finish") : t("arts.next")}
+            </ElderButton>
           </div>
         </div>
 
-        <ElderButton onClick={() => setArteAtual(null)} variant="secondary" fullWidth>
-          ← Voltar para Artes
+        <ElderButton onClick={() => setCurrentArt(null)} variant="secondary" fullWidth>
+          {t("arts.backToArts")}
         </ElderButton>
       </div>
       <EmergencyButton />

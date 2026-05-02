@@ -3,49 +3,54 @@ import GuideCharacter from "@/components/GuideCharacter";
 import EmergencyButton from "@/components/EmergencyButton";
 import ElderButton from "@/components/ElderButton";
 import { Volume2 } from "lucide-react";
-import { falar } from "@/lib/voice";
+import { ttsService } from "@/services/ttsService";
+import { useI18n } from "@/i18n";
 
-const avisos = [
-  { id: 1, texto: "Amanhã teremos café da manhã especial às 8h!", data: "Hoje" },
-  { id: 2, texto: "Atividade de música na sala de convivência às 15h.", data: "Hoje" },
-  { id: 3, texto: "Visita da família permitida no domingo.", data: "Ontem" },
-  { id: 4, texto: "Consulta médica geral na quarta-feira.", data: "Ontem" },
+const alertItems = [
+  { id: 1, textKey: "alerts.item1", dateKey: "alerts.today" },
+  { id: 2, textKey: "alerts.item2", dateKey: "alerts.today" },
+  { id: 3, textKey: "alerts.item3", dateKey: "alerts.yesterday" },
+  { id: 4, textKey: "alerts.item4", dateKey: "alerts.yesterday" },
 ];
 
 const Avisos = () => {
-  const ouvirTodos = () => {
-    const todosTextos = `Vamos ouvir seus avisos com calma. ${avisos.map((a) => a.texto).join('. ')}`;
-    falar(todosTextos, "pt-BR");
+  const { t, language } = useI18n();
+
+  const listenAll = () => {
+    const allTexts = `${t("alerts.intro")} ${alertItems.map((item) => t(item.textKey)).join(". ")}`;
+    ttsService.speak(allTexts, language);
   };
 
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container max-w-xl mx-auto px-4 space-y-6">
-        <PageHeader title="Avisos" emoji="📢" />
+        <PageHeader title={t("alerts.title")} emoji="📢" />
+        <GuideCharacter message={t("alerts.guide")} size="sm" />
 
-        <GuideCharacter message="Aqui estão os avisos do lar. Toque no alto-falante para ouvir!" size="sm" />
-
-        <ElderButton onClick={ouvirTodos} variant="primary" fullWidth>
+        <ElderButton onClick={listenAll} variant="primary" fullWidth>
           <Volume2 className="w-5 h-5 mr-2" />
-          Ouvir todos os avisos
+          {t("alerts.listenAll")}
         </ElderButton>
 
         <div className="space-y-4">
-          {avisos.map((a) => (
-            <div key={a.id} className="card-elder flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-xs font-semibold text-muted-foreground uppercase">{a.data}</p>
-                <p className="text-lg font-semibold text-foreground">{a.texto}</p>
+          {alertItems.map((item) => {
+            const text = t(item.textKey);
+            return (
+              <div key={item.id} className="card-elder flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase">{t(item.dateKey)}</p>
+                  <p className="text-lg font-semibold text-foreground">{text}</p>
+                </div>
+                <button
+                  onClick={() => ttsService.speak(text, language)}
+                  className="btn-elder bg-primary text-primary-foreground px-4 py-3"
+                  aria-label={t("alerts.listenItem", { text })}
+                >
+                  <Volume2 className="w-6 h-6" />
+                </button>
               </div>
-              <button
-                onClick={() => falar(`Aviso: ${a.texto}`, "pt-BR")}
-                className="btn-elder bg-primary text-primary-foreground px-4 py-3"
-                aria-label={`Ouvir: ${a.texto}`}
-              >
-                <Volume2 className="w-6 h-6" />
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <EmergencyButton />

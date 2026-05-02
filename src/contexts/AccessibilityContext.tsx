@@ -1,34 +1,65 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import {
+  AccessibilityPreferences,
+  applyAccessibilityPreferences,
+  defaultAccessibilityPreferences,
+  FontSize,
+  loadAccessibilityPreferences,
+  saveAccessibilityPreferences,
+  ThemeMode,
+} from "@/lib/accessibility";
 
 interface AccessibilityContextType {
   highContrast: boolean;
+  theme: ThemeMode;
+  fontSize: FontSize;
   toggleHighContrast: () => void;
+  setTheme: (theme: ThemeMode) => void;
+  setFontSize: (fontSize: FontSize) => void;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType>({
-  highContrast: false,
+  highContrast: defaultAccessibilityPreferences.highContrast,
+  theme: defaultAccessibilityPreferences.theme,
+  fontSize: defaultAccessibilityPreferences.fontSize,
   toggleHighContrast: () => {},
+  setTheme: () => {},
+  setFontSize: () => {},
 });
 
 export const useAccessibility = () => useContext(AccessibilityContext);
 
 export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [highContrast, setHighContrast] = useState(false);
+  const [preferences, setPreferences] = useState<AccessibilityPreferences>(loadAccessibilityPreferences);
+
+  useEffect(() => {
+    applyAccessibilityPreferences(preferences);
+    saveAccessibilityPreferences(preferences);
+  }, [preferences]);
 
   const toggleHighContrast = useCallback(() => {
-    setHighContrast((prev) => {
-      const next = !prev;
-      if (next) {
-        document.documentElement.classList.add("high-contrast");
-      } else {
-        document.documentElement.classList.remove("high-contrast");
-      }
-      return next;
-    });
+    setPreferences((prev) => ({ ...prev, highContrast: !prev.highContrast }));
+  }, []);
+
+  const setTheme = useCallback((theme: ThemeMode) => {
+    setPreferences((prev) => ({ ...prev, theme }));
+  }, []);
+
+  const setFontSize = useCallback((fontSize: FontSize) => {
+    setPreferences((prev) => ({ ...prev, fontSize }));
   }, []);
 
   return (
-    <AccessibilityContext.Provider value={{ highContrast, toggleHighContrast }}>
+    <AccessibilityContext.Provider
+      value={{
+        highContrast: preferences.highContrast,
+        theme: preferences.theme,
+        fontSize: preferences.fontSize,
+        toggleHighContrast,
+        setTheme,
+        setFontSize,
+      }}
+    >
       {children}
     </AccessibilityContext.Provider>
   );
